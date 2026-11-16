@@ -1,0 +1,36 @@
+[package]
+name = "asm_test_bench"
+version = "0.1.0"
+edition = "2021"
+description = "ASM Test Bench: an educational x86 (32-bit) assembly IDE with a built-in emulator and debugger"
+autoexamples = false
+
+[[bin]]
+name = "asm_test_bench"
+path = "src/main.rs"
+
+[dependencies]
+egui = "0.37"
+eframe = { version = "0.37", default-features = false, features = ["default_fonts", "glow", "persistence", "clipboard", "accesskit"] }
+serde = { version = "1", features = ["derive"] }
+# Self-update from GitHub Releases (src/update.rs): the API reply, and unpacking the release zip.
+serde_json = "1"
+miniz_oxide = "0.8"
+
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+opt-level = 3
+
+[dev-dependencies]
+image = { version = "0.25", default-features = false, features = ["png"] }
+
+# Icon generator (tools/, because examples/ holds the .asm samples).
+[[example]]
+name = "mkicon"
+path = "tools/mkicon.rs"
+
+[target.'cfg(windows)'.dependencies]
+# WinHTTP for the self-update download.
+windows = { version = "0.62", features = ["Win32_Foundation", "Win32_Networking_WinHttp"] }
